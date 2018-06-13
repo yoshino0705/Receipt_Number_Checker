@@ -76,7 +76,7 @@ class Receipt_Numbers(object):
         results = [ Receipt_Numbers._check_top_prize_number(top, number_to_check) for top in prizes_numbers['top_prize'] ]
         results = [r for r in results if r != -1]
         if results:
-            return _get_prize_name(min(results)) # the lower the number the better prize
+            return Receipt_Numbers._get_prize_name(min(results)) # the lower the number the better prize
     
         return 'no hit'
     
