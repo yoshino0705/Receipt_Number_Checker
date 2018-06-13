@@ -92,8 +92,11 @@ class Receipt_Numbers(object):
             )
         
         _ret = []
-        for _r in _results:            
-            _ret.append([(_k,_v) for _k,_v in _r.items() if _v != 'Invalid numbers'][0])
+        for _r in _results:   
+            try:
+                _ret.append([(_k,_v) for _k,_v in _r.items() if _v != 'Invalid numbers'][0])
+            except IndexError:
+                pass
 
         if _ret:
             _hits = [_r for _r in _ret if _r[1] != 'no hit']
