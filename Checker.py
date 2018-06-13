@@ -30,7 +30,7 @@ class Receipt_Numbers(object):
     
     @staticmethod
     def _valid_numbers(num_to_check):
-        return False if len(num_to_check) != 8 else True
+        return False if type(num_to_check) != str or len(num_to_check) != 8 else True
     
     @staticmethod
     def generate_last_n_digits(digits):
@@ -102,7 +102,7 @@ class Receipt_Numbers(object):
             _hits = [_r for _r in _ret if _r[1] != 'no hit']
             return _hits[0] if _hits else 'no hit'
         else:
-            return 'Invalid numbers'
+            return 'Invalid numbers or input'
             
  if __name__ == '__main__':
      rn = Receipt_Numbers()
