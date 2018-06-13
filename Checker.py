@@ -44,6 +44,8 @@ class Receipt_Numbers(object):
             # [::-1] reverses string
             if digit1 == digit2:
                 matches += 1
+            else:
+                break
         return (8 - matches) + 1 if matches >= 3 else -1
 
     def _get_prize_numbers(self):
