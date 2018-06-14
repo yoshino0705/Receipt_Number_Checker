@@ -1,6 +1,8 @@
 from flask import Flask, request, abort
 import os
 
+from Checker import Receipt_Numbers
+
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -15,7 +17,7 @@ app = Flask(__name__)
 
 line_bot_api = LineBotApi(os.environ['Channel_Access_Token'])
 handler = WebhookHandler(os.environ['Channel_Secret'])
-
+rn = Receipt_Numbers()
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -33,6 +35,13 @@ def callback():
         abort(400)
 
     return 'OK'
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    result = rn.check(event.message.text)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=str(result)))
 
 if __name__ == "__main__":
     app.run()
