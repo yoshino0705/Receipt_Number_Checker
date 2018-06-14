@@ -40,7 +40,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     batch = [single_check(t) for t in event.message.text.split()]
-    batch = '\n'.join(batch)
+    batch = '\n\n'.join(batch)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=batch))
