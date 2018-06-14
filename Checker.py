@@ -106,8 +106,8 @@ class Receipt_Numbers(object):
         else:
             return 'Invalid numbers or input'
             
- if __name__ == '__main__':
-     rn = Receipt_Numbers()
-     num = '12342591'
-     result = rn.check(num)
-     print(result)
+if __name__ == '__main__':
+    rn = Receipt_Numbers()
+    num = '12342591'
+    result = rn.check(num)
+    print(result)
