@@ -21,7 +21,7 @@ class Receipt_Numbers(object):
         return months[1]
     
     @staticmethod
-    def _get_prize_name(ranking):
+    def get_prize_name(ranking):
         names = ['top', 'second', 'third', 'fourth', 'fifth', 'sixth']
         if ranking <= len(names):
             return '%s_prize' % names[ranking - 1]
@@ -30,7 +30,7 @@ class Receipt_Numbers(object):
     
     @staticmethod
     def _valid_numbers(num_to_check):
-        return False if type(num_to_check) != str or len(num_to_check) != 8 else True
+        return False if type(num_to_check) != str or len(num_to_check) < 3 else True
     
     @staticmethod
     def generate_last_n_digits(digits):
@@ -46,6 +46,7 @@ class Receipt_Numbers(object):
                 matches += 1
             else:
                 break
+        #print('top:', a_top_prize_num, 'cur:', num_to_check, 'matches:', matches)
         return (8 - matches) + 1 if matches >= 3 else -1
 
     def _get_prize_numbers(self):
@@ -65,6 +66,14 @@ class Receipt_Numbers(object):
     def get_prize_numbers(self):
         return self._prize_numbers
     
+    def _check_top_prizes_from_one_set(self, prizes_numbers, number_to_check):
+        results = [ Receipt_Numbers._check_top_prize_number(top, number_to_check) for top in prizes_numbers['top_prize'] ]
+        results = [r for r in results if r != -1]
+        if results:
+            return Receipt_Numbers.get_prize_name(min(results)) # the lower the number the better prize
+        else:
+            return 'no hit'
+    
     def _check_from_one_set(self, prizes_numbers, number_to_check):
         if not Receipt_Numbers._valid_numbers(number_to_check):
             return 'Invalid numbers'
@@ -75,12 +84,8 @@ class Receipt_Numbers(object):
             return 'grand_prize'
         if number_to_check in prizes_numbers['special_prize']:
             return 'special_prize'
-        results = [ Receipt_Numbers._check_top_prize_number(top, number_to_check) for top in prizes_numbers['top_prize'] ]
-        results = [r for r in results if r != -1]
-        if results:
-            return Receipt_Numbers._get_prize_name(min(results)) # the lower the number the better prize
-    
-        return 'no hit'
+        
+        return self._check_top_prizes_from_one_set(prizes_numbers, number_to_check)
     
     def check(self, numbers_to_check):
         _results = []
