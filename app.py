@@ -2,7 +2,7 @@ from flask import Flask, request, abort
 import os
 
 from Checker import Receipt_Numbers
-from Utilities_Functions import filter_inputs
+from Utilities_Functions import filter_inputs, parse_results
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -41,9 +41,10 @@ def callback():
 def handle_message(event):
     input_text = filter_inputs(event.message.text)
     result = rn.check(input_text)
+    reply_text = parse_results(result)
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=str(result)))
+        TextSendMessage(text=reply_text))
 
 if __name__ == "__main__":
     app.run()
