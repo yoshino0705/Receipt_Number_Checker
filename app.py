@@ -39,16 +39,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    batch = [single_check(t) for t in event.message.text.split()]
+    filtered_text = list(map(filter_inputs, event.message.text.split()))
+    batch = [single_check(t) for t in filtered_text if t] # if t isn't ''
     batch = '\n\n'.join(batch)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=batch))
     
-def single_check(input_text):
-    filtered_text = filter_inputs(input_text)
-    result = rn.check(filtered_text)
-    return parse_results(result)
+def single_check(input_text):    
+    result = rn.check(input_text)
+    return '{}:\n{}'.format(input_text, parse_results(result))
 
 if __name__ == "__main__":
     app.run()
