@@ -6,7 +6,7 @@ class Receipt_Numbers(object):
         self._response = requests.request("GET","http://invoice.etax.nat.gov.tw/")
         self.soup = BeautifulSoup(str(self._response.content), 'html.parser')
         self._prize_numbers = self._get_prize_numbers()
-    
+        
     @staticmethod
     def _extract_lottery_number(tag):
         lottery_numbers = [t.contents[0].split('\\xe3\\x80\\x81') for t in tag]
@@ -97,19 +97,8 @@ class Receipt_Numbers(object):
                     self._check_from_one_set(hit_numbers, numbers_to_check)
                 }                
             )
-        
-        _ret = []
-        for _r in _results:   
-            try:
-                _ret.append([(_k,_v) for _k,_v in _r.items() if _v != 'Invalid numbers'][0])
-            except IndexError:
-                pass
-
-        if _ret:
-            _hits = [_r for _r in _ret if _r[1] != 'no hit']
-            return _hits[0] if _hits else 'no hit'
-        else:
-            return 'Invalid numbers or input'
+        _ret = [_r for _r in _results if 'Invalid numbers' not in _r.values() and 'no hit' not in _r.values()]
+        return _ret if _ret else ['no hit']
             
 if __name__ == '__main__':
     rn = Receipt_Numbers()
