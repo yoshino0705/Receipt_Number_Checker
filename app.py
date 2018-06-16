@@ -42,6 +42,8 @@ def handle_message(event):
     filtered_text = list(map(filter_inputs, event.message.text.split()))
     batch = [single_check(t) for t in filtered_text if t] # if t isn't ''
     batch = '\n\n'.join(batch)
+    if batch == '':
+        batch = '請輸入數字'
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=batch))
