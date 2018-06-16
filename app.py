@@ -51,7 +51,9 @@ def handle_message(event):
     
 def single_check(input_text):    
     result = rn.check(input_text)
-    return '{}:\n{}'.format(input_text, parse_results(result))
+    msg = list(map(parse_results, result))
+    msg = '\n'.join(msg)
+    return '號碼{}:\n{}'.format(input_text, msg)
 
 if __name__ == "__main__":
     app.run()
