@@ -17,7 +17,7 @@ def parse_results(results):
     elif 'no hit' in results:
         return '沒中'
     else:
-        return '這不是正確的統一發票號碼(需為3位數字)'
+        return '號碼需為3位以上的數字'
 
 def numerical(character):
     try:
