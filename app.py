@@ -53,7 +53,7 @@ def single_check(input_text):
     result = rn.check(input_text)
     msg = list(map(parse_results, result))
     msg = '\n'.join(msg)
-    return '號碼{}:\n{}'.format(input_text, msg)
+    return '號碼{}:\n{}'.format(input_text, msg[:8])
 
 if __name__ == "__main__":
     app.run()
