@@ -18,5 +18,5 @@ QR Code to invite the bot (Up to 50 users can befriend the bot, due to the limit
 
 # Disclaimer:
 ```
-This bot is not responsible for any losses of fortune due to problems in the code that causes the user to receive incorrect results.
+This bot is not responsible for any losses of fortune due to problems in the code that causes the users to receive incorrect results.
 ```
