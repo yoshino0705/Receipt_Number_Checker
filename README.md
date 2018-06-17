@@ -13,6 +13,7 @@ QR Code to invite the bot (Up to 50 users can befriend the bot, due to the limit
 # Dependencies:
 - [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 - [requests](https://github.com/requests/requests)
+- [Flask](http://flask.pocoo.org/docs/0.12/)
 
 # Disclaimer:
 ```
