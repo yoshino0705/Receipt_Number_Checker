@@ -39,8 +39,14 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    if event.source.type == "room":
+        r_id = event.source.room_id # should've named room id, which is unique
+    else:
+        r_id = event.source.user_id
+        
     print('Received', event.message.text)
     filtered_text = list(map(filter_inputs, event.message.text.split()))
+    sets_of_digits_count = len(filtered_text)
     batch = [single_check(t) for t in filtered_text if t] # if t isn't ''
     batch = '\n\n'.join(batch)
     if batch == '':
@@ -48,6 +54,13 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=batch))
+    # sends an additional notification message if won
+    # and when the batch of numbers is greater than 5 sets
+    # if 'congratulations' is in the message and sets count >= 5:
+    if '恭喜' in batch and sets_of_digits_count >= 5:
+        line_bot_api.push_message(
+        r_id,
+        TextSendMessage(text='有中獎喔~'))
     
 def single_check(input_text):    
     result = rn.check(input_text)
