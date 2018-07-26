@@ -11,13 +11,17 @@ prize_dict = {
 
 def parse_results(results):
     if type(results) == dict:
+        key = list(results.values())[0]
+        if key == 'special_potential':
+            return '有機會中特獎\n請輸入全8碼'
+        
         months = list(results.keys())[0]
-        prize = prize_dict[list(results.values())[0]]
+        prize = prize_dict[key]
         return '恭喜中了{}月的{}\n獎金 {} 元'.format(months, prize[0], prize[1])
     elif 'no hit' in results:
         return '沒中'
     else:
-        return '號碼需為3位以上的數字'
+        return '這不是正確的統一發票號碼(需為8位數字)'
 
 def numerical(character):
     try:
