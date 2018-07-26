@@ -38,7 +38,7 @@ class Receipt_Numbers(object):
     
     @staticmethod
     def _check_top_prize_number(a_top_prize_num, num_to_check):
-        min_len = min(len(a_top_prize_num), len(num_to_check))
+        #min_len = min(len(a_top_prize_num), len(num_to_check))
         matches = 0
         for digit1, digit2 in zip(a_top_prize_num[::-1], num_to_check[::-1]):
             # [::-1] reverses string
@@ -48,6 +48,19 @@ class Receipt_Numbers(object):
                 break
         #print('top:', a_top_prize_num, 'cur:', num_to_check, 'matches:', matches)
         return (8 - matches) + 1 if matches >= 3 else -1
+    
+    @staticmethod
+    def _has_potential(special_prize_num, numbers_to_check):
+        matches = 0
+        for digit1, digit2 in zip(special_prize_num[::-1], numbers_to_check[::-1]):
+            if digit1 == digit2:
+                matches += 1
+            else:
+                break
+        #print("Prize_Num:", special_prize_num, "Number:", numbers_to_check)
+        #print("Matches:", matches)
+        # theres a rule where the input has to be at least 3 digits
+        return True if matches > 0 else False
 
     def _get_prize_numbers(self):
         tags = self.soup.find_all('table')
@@ -84,7 +97,12 @@ class Receipt_Numbers(object):
             return 'grand_prize'
         if number_to_check in prizes_numbers['special_prize']:
             return 'special_prize'
-        
+        sp_potential = [Receipt_Numbers._has_potential(n, number_to_check) for n in prizes_numbers['special_prize']]
+        grand_potential = [Receipt_Numbers._has_potential(n, number_to_check) for n in prizes_numbers['grand_prize']]
+        sp_potential = True if True in sp_potential else False
+        grand_potential = True if True in grand_potential else False
+        if sp_potential or grand_potential:
+            return 'special_potential'
         return self._check_top_prizes_from_one_set(prizes_numbers, number_to_check)
     
     def check(self, numbers_to_check):
@@ -99,9 +117,3 @@ class Receipt_Numbers(object):
             )
         _ret = [_r for _r in _results if 'Invalid numbers' not in _r.values() and 'no hit' not in _r.values()]
         return _ret if _ret else ['no hit']
-            
-if __name__ == '__main__':
-    rn = Receipt_Numbers()
-    num = '12342591'
-    result = rn.check(num)
-    print(result)
