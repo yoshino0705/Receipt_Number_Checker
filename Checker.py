@@ -64,7 +64,7 @@ class Receipt_Numbers(object):
         #print("Prize_Num:", special_prize_num, "Number:", numbers_to_check)
         #print("Matches:", matches)
         # theres a rule where the input has to be at least 3 digits
-        return True if matches > 0 else False
+        return True if matches >= 3 else False
 
     def _get_prize_numbers(self):
         tags = self.soup.find_all('table')
