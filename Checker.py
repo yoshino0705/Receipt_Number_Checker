@@ -51,6 +51,10 @@ class Receipt_Numbers(object):
     
     @staticmethod
     def _has_potential(special_prize_num, numbers_to_check):
+        # if the input is already 8 digits, then that means it didnt match either
+        # the grand prize or the special prize
+        if len(numbers_to_check) >= 8:
+            return False
         matches = 0
         for digit1, digit2 in zip(special_prize_num[::-1], numbers_to_check[::-1]):
             if digit1 == digit2:
