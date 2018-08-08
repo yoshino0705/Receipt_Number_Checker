@@ -39,6 +39,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    print(event) #debug
     if event.source.type == "room":
         r_id = event.source.room_id # should've named room id, which is unique
     else:
