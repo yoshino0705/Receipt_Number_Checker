@@ -1,4 +1,4 @@
-# Recipt_Number_Checker
+# Receipt_Number_Checker
 
 A LINE bot dedicated to comparing the Taiwanese receipts' numbers (kinda like lottery) to the numbers that grants cash.
 
