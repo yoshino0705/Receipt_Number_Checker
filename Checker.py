@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 class Receipt_Numbers(object):
     def __init__(self):
-        self._response = requests.request("GET","http://invoice.etax.nat.gov.tw/")
+        self._response = requests.request("GET","https://invoice.etax.nat.gov.tw/")
         self.soup = BeautifulSoup(str(self._response.content), 'html.parser')
         self._prize_numbers = self._get_prize_numbers()
         
